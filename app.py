@@ -11,13 +11,13 @@ app = FastAPI()
 UPLOAD_DIRECTORY = "uploaded_audio"
 os.makedirs(UPLOAD_DIRECTORY, exist_ok=True)
 
-@app.post("/upload-audio/")
+@app.post("/upload-audio")
 async def upload_audio(file: UploadFile = File(...)):
-    # Check the file type (accept only audio files)
-    if not file.content_type.startswith("audio/"):
+    # Check the file type (accept only audio files) for audio files it will be audio/wave etc
+    if not file.content_type.startswith("audio"):
         return JSONResponse(content={"error": "Invalid file type"}, status_code=400)
     
-    # Check for allowed extensions (MP3 or WAV)
+    # # Check for allowed extensions (MP3 or WAV)
     if not (file.filename.endswith(".mp3") or file.filename.endswith(".wav")):
         return JSONResponse(content={"error": "Only MP3 and WAV files are allowed"}, status_code=400)
 
